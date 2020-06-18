@@ -6,57 +6,53 @@ namespace MyTools.ValueInfo
     [Serializable]
     public struct IntInfo
     {
-        public int min;
-        public int max;
-        public int value;
+        [SerializeField] int min;
+        [SerializeField] int max;
+        [SerializeField] int value;
 
-        public IntInfo(int value)
+        public IntInfo(int min, int max, int value)
         {
-            if (value != 0)
-            {
-                bool positive = value > 0;
-                min = positive ? 0 : value;
-                max = positive ? value : 0;
-            }
-            else
-            {
-                min = 0;
-                max = 1;
-            }
-            this.value = value;
-        }
-
-        public int Min { get => min; set => SetMin(value); }
-        public int Max { get => max; set => SetMax(value); }
-        public int Value { get => value; set => SetValue(value); }
-
-        public float ValueToMaxRatio => max == 0 ? 0f : ((float)value) / max;
-        public float Normalize => (float)value / (max - min);
-
-        public bool IsMax => value == max;
-        public bool IsMin => value == min;
-        public bool IsZero => value == 0;
-        public void ToMin() => value = min;
-        public void ToMax() => value = max;
-        public void ToZero() => value = min = 0;
-
-        public void SetMin(int min)
-        {
-            if (min > max) min = max;
+            if (min > value) min = value;
+            if (max < value) max = value;
             this.min = min;
-            if (value < this.min) value = this.min;
-        }
-        public void SetMax(int max)
-        {
-            if (max < min) max = min;
             this.max = max;
-            if (value > this.max) value = this.max;
-        }
-        public void SetValue(int value)
-        {
-            if (value < min) value = min;
-            else if (value > max) value = max;
             this.value = value;
+        }
+
+        public int Min { get => this.min; set => SetMin(value); }
+        public int Max { get => this.max; set => SetMax(value); }
+        public int Value { get => this.value; set => SetValue(value); }
+
+        public float ValueToMaxRatio => this.max == 0 ? 0f : ((float)this.value) / this.max;
+        public float Normalize => (float)this.value / (this.max - this.min);
+
+        public bool IsMax => this.value == this.max;
+        public bool IsMin => this.value == this.min;
+        public bool IsZero => this.value == 0;
+        public IntInfo ToMin() { this.value = this.min; return this; }
+        public IntInfo ToMax() { this.value = this.max; return this; }
+        public IntInfo ToZero() { this.value = this.min = 0; return this; }
+
+        public IntInfo SetMin(int min)
+        {
+            if (min > this.max) min = this.max;
+            this.min = min;
+            if (this.value < this.min) this.value = this.min;
+            return this;
+        }
+        public IntInfo SetMax(int max)
+        {
+            if (max < this.min) max = this.min;
+            this.max = max;
+            if (this.value > this.max) this.value = this.max;
+            return this;
+        }
+        public IntInfo SetValue(int value)
+        {
+            if (value < this.min) value = this.min;
+            else if (value > this.max) value = this.max;
+            this.value = value;
+            return this;
         }
 
         public static implicit operator int(IntInfo info) => info.value;
@@ -70,49 +66,53 @@ namespace MyTools.ValueInfo
     [Serializable]
     public struct FloatInfo
     {
-        public float min;
-        public float max;
-        public float value;
+        [SerializeField] float min;
+        [SerializeField] float max;
+        [SerializeField] float value;
 
-        public FloatInfo(float value)
+        public FloatInfo(float min, float max, float value)
         {
-            bool positive = value > 0;
-            min = positive ? 0 : value;
-            max = positive ? value : 0;
-            this.value = value;
-        }
-
-        public float Min { get => min; set => SetMin(value); }
-        public float Max { get => max; set => SetMax(value); }
-        public float Value { get => value; set => SetValue(value); }
-
-        public float ValueToMaxRatio => max.IsVerySmall() ? 0f : value / max;
-        public float Normalize => value / (max - min);
-
-        public bool IsMax => (value - max).IsVerySmall();
-        public bool IsMin => (value - min).IsVerySmall();
-        public bool IsZero => value.IsVerySmall();
-        public void ToMin() => value = min;
-        public void ToMax() => value = max;
-        public void ToZero() => value = min = 0f;
-
-        public void SetMin(float min)
-        {
-            if (min > max) min = max;
+            if (min > value) min = value;
+            if (max < value) max = value;
             this.min = min;
-            if (value < this.min) value = this.min;
-        }
-        public void SetMax(float max)
-        {
-            if (max < min) max = min;
             this.max = max;
-            if (value > this.max) value = this.max;
-        }
-        public void SetValue(float value)
-        {
-            if (value < min) value = min;
-            else if (value > max) value = max;
             this.value = value;
+        }
+
+        public float Min { get => this.min; set => SetMin(value); }
+        public float Max { get => this.max; set => SetMax(value); }
+        public float Value { get => this.value; set => SetValue(value); }
+
+        public float ValueToMaxRatio => this.max.IsVerySmall() ? 0f : this.value / this.max;
+        public float Normalize => this.value / (this.max - this.min);
+
+        public bool IsMax => (this.value - this.max).IsVerySmall();
+        public bool IsMin => (this.value - this.min).IsVerySmall();
+        public bool IsZero => this.value.IsVerySmall();
+        public FloatInfo ToMin() { this.value = this.min; return this; }
+        public FloatInfo ToMax() { this.value = this.max; return this; }
+        public FloatInfo ToZero() { this.value = this.min = 0f; return this; }
+
+        public FloatInfo SetMin(float min)
+        {
+            if (min > this.max) min = this.max;
+            this.min = min;
+            if (this.value < this.min) this.value = this.min;
+            return this;
+        }
+        public FloatInfo SetMax(float max)
+        {
+            if (max < this.min) max = this.min;
+            this.max = max;
+            if (this.value > this.max) this.value = this.max;
+            return this;
+        }
+        public FloatInfo SetValue(float value)
+        {
+            if (value < this.min) value = this.min;
+            else if (value > this.max) value = this.max;
+            this.value = value;
+            return this;
         }
 
         public static implicit operator float(FloatInfo info) => info.value;
