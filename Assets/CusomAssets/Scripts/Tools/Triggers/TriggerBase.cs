@@ -11,8 +11,8 @@ namespace MyTools.Triggers.Base
         public event Action<T> OnEnter = delegate { };
         public event Action<T> OnExit = delegate { };
 
-        protected void Enter(T obj) { OnEnter(obj); }
-        protected void Exit(T obj) { OnExit(obj); }
+        protected void Enter(T obj) => OnEnter(obj);
+        protected void Exit(T obj) => OnExit(obj);
 
         private void OnTriggerEnter(Collider col) { EnterEvent(col); }
         private void OnTriggerExit(Collider col) { ExitEvent(col); }

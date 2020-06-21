@@ -6,10 +6,10 @@ namespace MyTools.Helpers
 {
     public abstract class ImprovedBehaviour : MonoBehaviour
     {
-        GameObject m_GO = null;
-        Transform m_TR = null;
+        GameObject go = null;
+        Transform tr = null;
 
-        public GameObject GO => m_GO ?? (m_GO = gameObject);
-        public Transform TR => m_TR ?? (m_TR = transform);
+        public GameObject GO => this.go ?? (this.go = gameObject);
+        public Transform TR => this.tr ?? (this.tr = transform);
     }
 }

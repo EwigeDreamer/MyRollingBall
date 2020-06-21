@@ -142,7 +142,7 @@ namespace MyTools.Localizator
                 if (!LocData.TryParseCode(l, out lt)) lt = LangCode.en;
             }
             MyPlayerPrefs.SetString(key, lt.ToString());
-            MyLogger.LogFormat("Localization: {0}", lt);
+            Debug.Log($"Localization: {lt}");
             lang = lt;
         }
 
